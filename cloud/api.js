@@ -13,7 +13,7 @@ exports.fetchDataWithURL = function (href,num,callback) {
 
 	var imgArray = [];
 	var suburl = href;
-	for (var j = 1; j <= num; j++){
+	for (var j = 1; j <= parseInt(num); j++){
 		var _url = suburl + "_" + j + ".html";
 		var res1 = urlsync('GET',_url);
 		var xx = cheerio1.load(res1.getBody().toString('utf-8'));
