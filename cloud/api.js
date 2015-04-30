@@ -9,19 +9,20 @@ var urlsync = require('sync-request');;
 
 
 
-exports.fetchDataWithURL = function (url,num,callback) {
+exports.fetchDataWithURL = function (moreUrl,num,callback) {
 
-	var imgArray = [];
+	// var imgArray = [];
 
-	var suburl = url.substr(0,url.length - 5);
-	for (var j = 1; j <= parseInt(num); j++){
-		var _url = suburl + "_" + j + ".html";
-		var res1 = urlsync('GET',_url);
-		var xx = cheerio1.load(res1.getBody().toString('utf-8'));
-		var ss = xx('div[class=pic-image]').find('img').attr('src');
-		imgArray.push(ss);
-	}
-	callback (JSON.stringify(imgArray));
+	// var suburl = url.substr(0,url.length - 5);
+	// for (var j = 1; j <= parseInt(num); j++){
+	// 	var _url = suburl + "_" + j + ".html";
+	// 	var res1 = urlsync('GET',_url);
+	// 	var xx = cheerio1.load(res1.getBody().toString('utf-8'));
+	// 	var ss = xx('div[class=pic-image]').find('img').attr('src');
+	// 	imgArray.push(ss);
+	// }
+	// callback (JSON.stringify(imgArray));
+	callback(moreUrl);
 }
 
 exports.fetchData=function (offset,tag_id,callback) {
