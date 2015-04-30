@@ -5,16 +5,16 @@ var avos    = require("cloud/avos.js");
 var cheerio = require('cheerio');
 var cheerio1 = require('cheerio');
 var async = require('async');
-var urlsync = require('urllib-sync');
+var urlsync = require('sync-request');;
 
 
 exports.fetchData=function (offset,tag_id,callback) {
 
 	//取出所有数据
 	var url="http://www.4j4j.cn/index.php?c=pic&a=load&page=1&offset=" + offset + "&tag_id=" + tag_id;
-	var request = urlsync.request;
-	var res1 = request(url);
-	var lines = res1.data.toString('utf-8');
+	
+	var res1 =  urlsync('GET',url);
+	var lines = res1.getBody().toString('utf-8');
 	var  re = /\\/g; // 创建正则表达式模式。
 	var  re_e = /\"/g;
  	lines = lines.replace(re, ""); // 用 "A" 替换 "The"。 
@@ -53,11 +53,10 @@ exports.fetchData=function (offset,tag_id,callback) {
 		var suburl = href.substr(0,href.length - 5);
 		for (var j = 1; j <= num; j++){
 			var _url = suburl + "_" + j + ".html";
-			res1 = request(_url);
-			xx = cheerio1.load(res1.data);
+			res1 = urlsync('GET',_url);
+			xx = cheerio1.load(res1.getBody().toString('utf-8'));
 			var ss = xx('div[class=pic-image]').find('img').attr('src');
 			imgArray.push(ss);
-			
 		}
 		var obj = { 
 		  src: src,
