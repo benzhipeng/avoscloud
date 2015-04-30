@@ -60,7 +60,6 @@ exports.fetchData=function (offset,tag_id,callback) {
 			
 		}
 		var obj = { 
-		  index: a,
 		  src: src,
 		  alt: alt,
 		  width: width,

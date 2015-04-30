@@ -5,8 +5,7 @@ var api=require("cloud/api.js");
 
 AV.Cloud.define("hello", function(request, response) {
   // response.success(" world 111!");
-
-  	api.fetchData(20,0,function (data) {
+  	api.fetchData(request.params.offset,request.params.tag_id,function (data) {
 
   		console.info('data: '+ data);
   	});
