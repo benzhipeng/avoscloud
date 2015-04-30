@@ -37,7 +37,7 @@ exports.fetchData=function (offset,tag_id,callback) {
 	var x = cheerio.load(lines);
 
 	
- 	
+ 	var myArray = [];
 	var a = 0;
 	x('li').each(function(i, elem) {
 
