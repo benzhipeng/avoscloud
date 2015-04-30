@@ -54,7 +54,7 @@ exports.fetchData=function (offset,tag_id,callback) {
 		for (var j = 1; j <= num; j++){
 			var _url = suburl + "_" + j + ".html";
 			res1 = urlsync('GET',_url);
-			xx = cheerio1.load(res1.getBody().toString('utf-8'));
+			var xx = cheerio1.load(res1.getBody().toString('utf-8'));
 			var ss = xx('div[class=pic-image]').find('img').attr('src');
 			imgArray.push(ss);
 		}
