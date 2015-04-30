@@ -48,22 +48,22 @@ exports.fetchData=function (offset,tag_id,callback) {
 		
 
 		var imgArray = [];
-		var  text = x(ins).text();
-		var num = parseInt(text.substr(1,1));
-		var suburl = href.substr(0,href.length - 5);
-		for (var j = 1; j <= num; j++){
-			var _url = suburl + "_" + j + ".html";
-			res1 = urlsync('GET',_url);
-			var xx = cheerio1.load(res1.getBody().toString('utf-8'));
-			var ss = xx('div[class=pic-image]').find('img').attr('src');
-			imgArray.push(ss);
-		}
+		// var  text = x(ins).text();
+		// var num = parseInt(text.substr(1,1));
+		// var suburl = href.substr(0,href.length - 5);
+		// for (var j = 1; j <= num; j++){
+		// 	var _url = suburl + "_" + j + ".html";
+		// 	res1 = urlsync('GET',_url);
+		// 	var xx = cheerio1.load(res1.getBody().toString('utf-8'));
+		// 	var ss = xx('div[class=pic-image]').find('img').attr('src');
+		// 	imgArray.push(ss);
+		// }
 		var obj = { 
 		  src: src,
 		  alt: alt,
 		  width: width,
 		  height: height,
-		  imgArray:imgArray
+		  imgArray:href
 		}
 		myArray.push(obj);
 	});
