@@ -15,8 +15,8 @@ AV.Cloud.define("fetchDataWithURL", function(request, response) {
   
   	api.fetchDataWithURL(request.params.href,request.params.num,function (data) {
 
-	console.info(data);
-		//response.success(data);
+	// console.info(data);
+		response.success(data);
   	});
 });
 
