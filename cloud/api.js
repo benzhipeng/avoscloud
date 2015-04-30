@@ -12,7 +12,7 @@ var urlsync = require('sync-request');;
 exports.fetchDataWithURL = function (href,num,callback) {
 
 	var imgArray = [];
-	var suburl = href;
+	var suburl = href.substr(0,href.length - 5);
 	for (var j = 1; j <= parseInt(num); j++){
 		var _url = suburl + "_" + j + ".html";
 		var res1 = urlsync('GET',_url);
