@@ -67,24 +67,19 @@ exports.fetch115DataWithURL = function (url,callback){
 	 });
 }	
 
-exports.fetchDataWithURL = function (url,urlLen,num,callback) {
+exports.fetchDataWithURL = function (dataURL,urlLen,num,callback) {
 
-	// var imgArray = [];
+	var imgArray = [];
 
-	// var suburl = url.substr(0,urlLen - 5);
-	// for (var j = 1; j <= parseInt(num); j++){
-	// 	var _url = suburl + "_" + j + ".html";
-	// 	var res1 = urlsync('GET',_url);
-	// 	var xx = cheerio1.load(res1.getBody().toString('utf-8'));
-	// 	var ss = xx('div[class=pic-image]').find('img').attr('src');
-	// 	imgArray.push(ss);
-	// }
-	var obj = { 
-		  url: url,
-		  urlLen: urlLen,
-		  num: num
-		}
-	callback (JSON.stringify(obj));
+	var suburl = dataURL.substr(0,urlLen - 5);
+	for (var j = 1; j <= parseInt(num); j++){
+		var _url = suburl + "_" + j + ".html";
+		var res1 = urlsync('GET',_url);
+		var xx = cheerio1.load(res1.getBody().toString('utf-8'));
+		var ss = xx('div[class=pic-image]').find('img').attr('src');
+		imgArray.push(ss);
+	}
+	callback (JSON.stringify(imgArray));
 }
 
 exports.fetchData=function (offset,tag_id,callback) {
