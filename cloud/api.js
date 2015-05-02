@@ -8,12 +8,70 @@ var async = require('async');
 var urlsync = require('sync-request');;
 
 
+//http://q.115.com/t-122826-30463.html
+exports.fetch115DetailDataWithURL = function (url,callback){
+	avos.httpGet(url,function(res) {
+	 	var data = res.data.toString('utf-8');
+	 	var x = cheerio.load(data);
+	 	var a = 0;
+	 	var myArray = [];
+	 	var imgs = x('div[id=js_content_box]').eq(0).find('img');
+	 	for (var i = 0; i < imgs.length; i++){
+	 		var src = imgs.eq(i).attr('src');
+ 			myArray.push(src);	
+	 	}
+	 	console.info(JSON.stringify(myArray));
+	 });
+}
 
-exports.fetchDataWithURL = function (url,num,callback) {
+//http://q.115.com/122826
+exports.fetch115DataWithURL = function (url,callback){
+
+	 avos.httpGet(url,function(res) {
+	 	var data = res.data.toString('utf-8');
+	 	var x = cheerio.load(data);
+	 	var a = 0;
+	 	var myArray = [];
+	 	x('li[class=topic-gallery]').each(function(i, elem) {
+	 		var photo = x(elem).find("div[class=photo]");
+	 		var title = x(elem).find("div[class=content]");
+	 		
+ 			var imgArray = [];
+ 			var dds = photo.find("dd");
+ 			for (var j = 0; j < dds.length; j++){
+ 				imgArray.push(dds.eq(j).find("img").attr("org-src"));
+ 			}
+ 			var  re_e = /\r/g;
+ 			var  re_a = /\n/g;
+ 			var  re_c = /undefinedd/g;
+ 			var  re_d = / /g;
+ 			var item = title.find("div[class=title]").eq(0).children().eq(0);
+ 			var content = item.text().trim();
+ 			content = content.replace(re_e,"");
+ 			content = content.replace(re_a,"");
+ 			content = content.replace(re_c,"");
+ 			content = content.replace(re_d,"");
+
+ 			var  suburl = title.find("a").eq(0).attr("href");
+ 			suburl = "http://q.115.com" + suburl;
+ 			var obj = { 
+			  imgArray:imgArray,
+			  content:content,
+			  sourceUrl:suburl
+			}
+ 			myArray.push(obj);
+	 		
+	 		a++;
+	 	});
+	 	console.info(JSON.stringify(myArray));
+	 });
+}	
+
+exports.fetchDataWithURL = function (url,urlLen,num,callback) {
 
 	var imgArray = [];
 
-	var suburl = url.substr(0,url.length - 5);
+	var suburl = url.substr(0,urlLen - 5);
 	for (var j = 1; j <= parseInt(num); j++){
 		var _url = suburl + "_" + j + ".html";
 		var res1 = urlsync('GET',_url);

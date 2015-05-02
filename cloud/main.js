@@ -7,16 +7,34 @@ AV.Cloud.define("fetchData", function(request, response) {
   // response.success(" world 111!");
   	api.fetchData(request.params.offset,request.params.tag_id,function (data) {
 
+  
 		response.success(data);
   	});
 });
 
 AV.Cloud.define("fetchDataWithURL", function(request, response) {
   
-  	api.fetchDataWithURL(request.params.url,request.params.num,function (data) {
+  	api.fetchDataWithURL(request.params.url,request.params.urlLen,request.params.num,function (data) {
 
 	// console.info(data);
 		response.success(data);
   	});
 });
 
+AV.Cloud.define("fetch115DataWithURL", function(request, response) {
+  
+  	api.fetch115DataWithURL(request.params.url,function (data) {
+
+	 // console.info(data);
+		response.success(data);
+  	});
+});
+
+AV.Cloud.define("fetch115DetailDataWithURL", function(request, response) {
+  
+  	api.fetch115DetailDataWithURL(request.params.url,function (data) {
+
+	 // console.info(data);
+		response.success(data);
+  	});
+});
