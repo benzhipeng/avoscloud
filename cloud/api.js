@@ -20,7 +20,7 @@ exports.fetch115DetailDataWithURL = function (url,callback){
 	 		var src = imgs.eq(i).attr('src');
  			myArray.push(src);	
 	 	}
-	 	console.info(JSON.stringify(myArray));
+	 	callback(JSON.stringify(myArray));
 	 });
 }
 
@@ -63,7 +63,7 @@ exports.fetch115DataWithURL = function (url,callback){
 	 		
 	 		a++;
 	 	});
-	 	console.info(JSON.stringify(myArray));
+	 	callback(JSON.stringify(myArray));
 	 });
 }	
 
