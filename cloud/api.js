@@ -85,8 +85,7 @@ exports.fetchDataWithURL = function (dataURL,urlLen,num,callback) {
 exports.fetchData=function (offset,tag_id,callback) {
 
 	//取出所有数据
-	var url="http://www.4j4j.cn/index.php?c=pic&a=load&page=1&offset=" + offset + "&tag_id=" + tag_id;
-	
+	var url="http://www.4j4j.cn/index.php?c=pic&a=load&page=1&offset=" + offset + "&tag_id=" + tag_id;	
 	var res1 =  urlsync('GET',url);
 	var lines = res1.getBody().toString('utf-8');
 	var  re = /\\/g; // 创建正则表达式模式。
@@ -123,7 +122,10 @@ exports.fetchData=function (offset,tag_id,callback) {
 
 		var imgArray = [];
 		var  text = x(ins).text();
-		var num = parseInt(text.substr(1,1));
+		var num = parseInt(text.replace(/[^0-9]/ig,""));
+
+
+
 		// var suburl = href.substr(0,href.length - 5);
 		// for (var j = 1; j <= num; j++){
 		// 	var _url = suburl + "_" + j + ".html";

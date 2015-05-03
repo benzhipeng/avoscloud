@@ -7,7 +7,6 @@ AV.Cloud.define("fetchData", function(request, response) {
   // response.success(" world 111!");
   	api.fetchData(request.params.offset,request.params.tag_id,function (data) {
 
-  
 		response.success(data);
   	});
 });
