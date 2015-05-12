@@ -7,9 +7,26 @@ var cheerio1 = require('cheerio');
 var async = require('async');
 var urlsync = require('sync-request');;
 
+
+exports.timerToFetchKuaiDiInfo = function (callback){
+	var expressOrderInfo_class = AV.Object.extend("ExpressOrderInfo");
+		var query = new AV.Query(expressOrderInfo_class);
+		query.find({
+		  	success: function(results) {
+		    	for (var i = 0; i < results.length; i++){
+		    		var obj = results[i];
+		    		exports.fetchKuaiDiInfo(obj.get('express_type'),obj.get('express_number'),callback);
+		    	}
+		  	},
+		  	error: function(error) {
+		    	
+		  	}
+		}); 
+}
+
+
 exports.fetchKuaiDiInfo = function (kuaidiKey,KuaidiNumber,callback){
 	
-
 	AV.Cloud.httpRequest({
 	  url: 'http://api.ickd.cn',
 	  params: {

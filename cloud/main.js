@@ -41,9 +41,13 @@ AV.Cloud.define("fetch115DetailDataWithURL", function(request, response) {
 AV.Cloud.define("fetchKuaiDiInfo", function(request, response) {
   
     api.fetchKuaiDiInfo(request.params.kuaidiKey,request.params.kuaidiNumber,function (data) {
-  
-       // console.info(data);  
        response.success(data);
-      
+    });
+});
+
+AV.Cloud.define('timerToFetchKuaiDiInfo', function(request, response) {
+  
+    api.timerToFetchKuaiDiInfo(function (data) {
+       response.success(data);      
     });
 });
