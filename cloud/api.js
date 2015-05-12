@@ -7,6 +7,84 @@ var cheerio1 = require('cheerio');
 var async = require('async');
 var urlsync = require('sync-request');;
 
+exports.fetchKuaiDiInfo = function (kuaidiKey,KuaidiNumber,callback){
+	
+
+	AV.Cloud.httpRequest({
+	  url: 'http://api.ickd.cn',
+	  params: {
+	    "id" : '109158',
+	    "secret" : 'b7898d0a4dd41f8f1a05711f200bfb90',
+	    "com" : kuaidiKey,
+	    "nu" : KuaidiNumber,
+	    "type" : 'json',
+	    "ord" : 'asc',
+	    "encode" : 'utf-8',
+	    "ver" : '2',
+	  },
+	  success: function(httpResponse) {
+
+		var expressOrderInfo_class = AV.Object.extend("ExpressOrderInfo");
+		var query = new AV.Query(expressOrderInfo_class);
+		query.equalTo("express_type", kuaidiKey);
+		query.equalTo("express_number", KuaidiNumber);
+		query.find({
+		  	success: function(results) {
+		    
+		    	var jsonResult_from_ackd = JSON.parse(httpResponse.text);
+		    	var update_time_from_ackd = jsonResult_from_ackd["update"];
+		    	var items_from_ackd = jsonResult_from_ackd['data']; 
+    			var item_from_ackd  = items_from_ackd[items_from_ackd.length - 1];
+    			var item_time_ackd = item_from_ackd['time'];
+
+		    	if(results.length > 0){
+		    		var obj = results[0];
+		    		var update_time_from_avos = obj.get("express_lastupdatetime");	
+		    		if(update_time_from_ackd >= parseInt(update_time_from_avos)){ //大于本地存储的时间 
+		    			obj.set('express_lastupdatetime',update_time_from_avos);
+		    			var item_time_avos = obj.get('express_last_data_time');	
+
+		    			if(item_time_avos != item_time_ackd){
+		    				callback(httpResponse.text);
+		    				obj.save();
+		    			}else {
+		    				callback('暂无数据');
+		    			}
+		    		}else {
+		    			
+		    		}
+
+		    	}else {
+		    		
+					var expressOrderInfo = AV.Object.new('ExpressOrderInfo');
+					expressOrderInfo.save({
+		 				express_type: kuaidiKey.toString(),
+		 				express_number: KuaidiNumber.toString(),
+		 				express_result:httpResponse.text,
+		 				express_lastupdatetime:update_time_from_ackd.toString(),
+		 				express_last_data_time:item_time_ackd
+					}, {
+		  			success: function(expressOrderInfo) {
+		    			
+		  			},
+		  			error: function(expressOrderInfo, error) {
+		    			
+		  			}
+					});
+		    	}
+		  	},
+		  	error: function(error) {
+		    	
+		  	}
+		});    
+	  },
+	  error: function(httpResponse) {
+	    callback(null);
+	  }
+	});
+
+}
+
 
 //http://q.115.com/t-122826-30463.html
 exports.fetch115DetailDataWithURL = function (url,callback){
