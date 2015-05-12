@@ -50,5 +50,6 @@ AV.Cloud.define('timerToFetchKuaiDiInfo', function(request, response) {
     api.timerToFetchKuaiDiInfo(function (data) {
        console.log(data);
        response.success(data);      
+       // console.info(data);
     });
 });

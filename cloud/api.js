@@ -62,7 +62,8 @@ exports.fetchKuaiDiInfo = function (kuaidiKey,KuaidiNumber,callback){
 		    			var item_time_avos = obj.get('express_last_data_time');	
 
 		    			if(item_time_avos != item_time_ackd){
-		    				callback(httpResponse.text);
+		    				item_from_ackd['status'] = jsonResult_from_ackd['status'];
+		    				callback(JSON.stringify(item_from_ackd));
 		    				obj.save();
 		    			}else {
 		    				callback('暂无数据');
