@@ -6,8 +6,6 @@ var cheerio = require('cheerio');
 var cheerio1 = require('cheerio');
 var async = require('async');
 var urlsync = require('sync-request');;
-
-
 exports.timerToFetchKuaiDiInfo = function (callback){
 	var expressOrderInfo_class = AV.Object.extend("ExpressOrderInfo");
 		var query = new AV.Query(expressOrderInfo_class);
@@ -19,7 +17,6 @@ exports.timerToFetchKuaiDiInfo = function (callback){
 		    	}
 		  	},
 		  	error: function(error) {
-		    	
 		  	}
 		}); 
 }
