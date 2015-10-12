@@ -175,6 +175,65 @@ exports.fetchDataWithURL = function (dataURL,urlLen,num,callback) {
 	callback (JSON.stringify(imgArray));
 }
 
+var ManshjianCategoryNames = [ "manshenghuo", 
+									"manyizu", 
+									"manfengjing", 
+									"manwenyi"];
+
+exports.manshijian=function (page,type,callback) {
+
+	var objs = [];
+	var url = "http://www.manshijian.com/articles/category/" + ManshjianCategoryNames[type] + "/" +page;
+	var res =  urlsync('GET',url);
+	var htmlString = res.getBody().toString('utf-8');
+	htmlString = htmlString.replace(/\n/g,"");
+	var html =  cheerio.load(htmlString);
+	html('.W_linka').each(function(i, elem) {
+
+		var img = html(elem).find('img').attr('src');
+		var desLink = html(elem).find('a').attr('href');
+		var  contentElem = html(elem).find('.content');
+		var  title = contentElem.find('h1').text();
+		var  note =  contentElem.find('.comment').text();
+		var  type = contentElem.find('span')[0].children[0].children[0].data;
+		var  time = contentElem.find('span')[1].children[0].data;
+
+		var obj = { 
+		  src: img,
+		  desLink: desLink,
+		  title: title,
+		  note: note,
+		  type:type,
+		  time:time
+		}
+		objs.push(obj)
+	});
+	callback(JSON.stringify(objs));
+}
+
+exports.manshijiandetail=function (url,callback) {
+	var res =  urlsync('GET',url);
+	var htmlString = res.getBody().toString('utf-8');
+	var html =  cheerio.load(htmlString);
+
+	var content = html('.new_content');
+	html('.botton').remove();
+	html('script').remove();
+	// html('.gd-bg').remove();
+	// html('.gd-bg').remove();
+	// html('.source').remove();
+	// html('.clear').remove();
+	// html('.wd-all').remove();
+	// html('.label').remove();
+	// html('input').remove();
+	// html('.clear').remove();
+	// html('h1').remove();
+	// html('br').remove();
+	var xx = html('.jiathis_style').remove();
+	callback(content.html())
+}
+
+
 exports.fetchData=function (offset,tag_id,callback) {
 
 	//取出所有数据

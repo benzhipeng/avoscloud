@@ -53,3 +53,21 @@ AV.Cloud.define('timerToFetchKuaiDiInfo', function(request, response) {
        // console.info(data);
     });
 });
+
+AV.Cloud.define('manshijian', function(request, response) {
+  
+    api.manshijian(request.params.m_page,request.params.m_type,function (data) {
+       // console.log(data);
+       response.success(data);      
+    });
+});
+
+AV.Cloud.define('manshijiandetail', function(request, response) {
+  
+    api.manshijiandetail(request.params.m_url,function (data) {
+       // console.log(data);
+       response.success(data);      
+    });
+});
+
+
